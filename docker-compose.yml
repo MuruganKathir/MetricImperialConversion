@@ -1,0 +1,41 @@
+﻿version: "3.7"
+services:
+  webapi:
+    container_name: 'webapi'
+    build:
+      context: .
+      dockerfile: ./conversion.api/dockerfile
+    ports:
+       - "5001:80"
+    depends_on:
+      - "db"
+    networks:
+      - my-network
+
+  webapp:
+    container_name: 'webapp'
+    build:
+      context: .
+      dockerfile: ./conversion-website/dockerfile
+     ports:
+       - "4200:80"
+    depends_on:
+      - "db"
+    networks:
+      - my-network
+      
+  db:
+    container_name: 'postgres'
+    image: postgres
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD= pass
+      - POSTGRES_DB= db
+     ports:
+       - "5432:5432"
+    networks:
+     - my-network
+
+networks:
+  my-network:
+    driver: bridge

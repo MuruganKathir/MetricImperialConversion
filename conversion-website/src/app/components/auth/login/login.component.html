@@ -1,0 +1,46 @@
+<div class="container login-container">
+  <div class="row">
+      <div class="col-md-6 mx-auto login-form-1">
+          <h3>Login Details</h3>
+          <form class="needs-validation" (ngSubmit)="saveChanges(u)" #u="ngForm">
+              <div class="form-group">
+                  <input 
+                    required
+                    [(ngModel)]="loginRequest.username"
+                    name="username"
+                    type="text"
+                    placeholder="Username *"
+                    class="form-control"
+                    minlength="1"
+                    maxlength="256"
+                    #name="ngModel"
+                    [ngClass]="{ 'is-invalid': name.touched && name.errors }"
+                    [ngClass]="{ 'is-valid': name.touched && name.valid }"/>
+                  <div class="invalid-feedback" *ngIf="name.touched && name.errors">
+                    <div *ngIf="name.hasError('required')">Username is required.</div>
+                  </div>
+              </div>
+              <div class="form-group">
+                <input 
+                  required
+                  [(ngModel)]="loginRequest.password"
+                  name="password"
+                  type="password"
+                  placeholder="Password *"
+                  class="form-control"
+                  minlength="1"
+                  maxlength="256"
+                  #password="ngModel"
+                  [ngClass]="{ 'is-invalid': password.touched && password.errors }"
+                  [ngClass]="{ 'is-valid': password.touched && password.valid }"/>
+                <div class="invalid-feedback" *ngIf="password.touched && password.errors">
+                  <div *ngIf="password.hasError('required')">Password is required.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                  <button type="submit" class="card-link btn btn-primary" [disabled]="u.invalid || u.pristine">Login</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>

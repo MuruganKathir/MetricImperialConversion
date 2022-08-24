@@ -1,0 +1,113 @@
+<div class="card">
+  <div class="card-header bg-dark text-white">Convert Metric/Imperial</div>
+  <form class="needs-validation" (ngSubmit)="saveChanges(f)" #f="ngForm">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Conversion Type</label>
+            <select
+              ngModel
+              #e="ngModel"
+              class="form-control"
+              id="conversionType"
+              name="conversionType"
+              [ngClass]="{ 'is-invalid': e.touched && e.errors }"
+              [ngClass]="{ 'is-valid': e.touched && e.valid }"
+            >
+            <option *ngFor="let key of statusKeys" [ngValue]="key" [label]="conversionTypes[key]" [selected]="conversionTypes[conversionTypes.Temperature]"></option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>From Unit</label>
+            <select
+              required
+              ngModel
+              #fu="ngModel"
+              class="form-control"
+              id="fromUnit"
+              name="fromUnit"
+              [ngClass]="{ 'is-invalid': fu.touched && fu.errors }"
+              [ngClass]="{ 'is-valid': fu.touched && fu.valid }"
+              (change)="onChange($event.target, f)"
+            >
+            <ng-container *ngIf="f.controls.conversionType.value == conversionTypes.Temperature">
+              <option *ngFor="let key of tempKeys" [ngValue]="key" [label]="tempUnits[key]"></option>
+            </ng-container>
+            <ng-container *ngIf="f.controls.conversionType.value == conversionTypes.Mass">
+              <option *ngFor="let key of massKeys" [ngValue]="key" [label]="massUnits[key]"></option>
+            </ng-container>
+            <ng-container *ngIf="f.controls.conversionType.value == conversionTypes.Length">
+              <option *ngFor="let key of lengthKeys" [ngValue]="key" [label]="lenghtUnits[key]"></option>
+            </ng-container>
+            </select>
+            <div class="invalid-feedback" *ngIf="fu.touched && fu.errors">
+              <div *ngIf="fu.hasError('required')">From unit is required.</div>
+              <div *ngIf="fu.hasError('sameUnit')">From Unit cannot be the same as To Unit.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>To Unit</label>
+            <select
+              required
+              ngModel
+              #tu="ngModel"
+              class="form-control"
+              id="toUnit"
+              name="toUnit"
+              [ngClass]="{ 'is-invalid': tu.touched && tu.errors }"
+              [ngClass]="{ 'is-valid': tu.touched && tu.valid }"
+              (change)="onChange($event.target, f)"
+
+            >
+            <ng-container *ngIf="f.controls.conversionType?.value == conversionTypes.Temperature">
+              <option *ngFor="let key of tempKeys" [ngValue]="key" [label]="tempUnits[key]"></option>
+            </ng-container>
+            <ng-container *ngIf="f.controls.conversionType?.value == conversionTypes.Mass">
+              <option *ngFor="let key of massKeys" [ngValue]="key" [label]="massUnits[key]"></option>
+            </ng-container>
+            <ng-container *ngIf="f.controls.conversionType?.value == conversionTypes.Length">
+              <option *ngFor="let key of lengthKeys" [ngValue]="key" [label]="lenghtUnits[key]"></option>
+            </ng-container>
+            </select>
+            <div class="invalid-feedback" *ngIf="tu.touched && tu.errors">
+              <div *ngIf="tu.hasError('required')">To unit is required.</div>
+              <div *ngIf="tu.hasError('sameUnit')">To Unit cannot be the same as From Unit.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Value</label>
+            <input
+              required
+              ngModel
+              name="valueToConvert"
+              type="number"
+              class="form-control"
+              #v="ngModel"
+              [ngClass]="{ 'is-invalid': v.touched && v.errors }"
+              [ngClass]="{ 'is-valid': v.touched && v.valid }"
+            />
+            <div class="invalid-feedback" *ngIf="v.touched && v.errors">
+              <div *ngIf="v.hasError('required')">Value is required.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="submit" class="card-link btn btn-primary" [disabled]="f.invalid || f.pristine">Convert</button>
+    </div>
+  </form>
+</div>
